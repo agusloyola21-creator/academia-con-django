@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container mt-3">
+    <h2 class="mb-4">Registrar asistencias para el curso: {{course.name}}</h2>
+    <h4>
+        Profesor: <strong>{{course.teacher.get_full_name}}</strong>
+        {% if course.status == 'I'%}
+            <h5><span class="badge bg-success">EN ETAPA DE INSCRIPCIÓN</span></h5> 
+        {% elif course.status == 'P'%}
+            <h5><span class="badge bg-warning">EN PROGRESO</span></h5> 
+        {% elif course.status == 'F'%}
+            <h5><span class="badge bg-danger">FINALIZADO</span></h5>
+        {% endif %}
+    </h4>
+    <hr>
+    <form action="{% url 'add_attendance' course.id %}" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                    Registrar Asistencias
+                    </div>
+                    <div class="card-body">
+                        {% if messages %}
+                            <div class="cotainer mt-3">
+                                {% for message in messages %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{message}}
+                                    </div>
+                                {% endfor %}
+                    
+                            </div>
+                
+                        {% endif %}
+                        <div class="mb-3">
+                            <label class="form-label" for="date">Fecha:</label>
+                            <input class="form-control" type="date" name="date" id="date" required>
+                        </div>
+                        <hr>
+                        {% for registration in registrations %}
+                            <div class="mb-3">
+                                <input class="form-check-input" type="checkbox" name="attendance_{{registration.student.id}}"
+                                id="{{registration.student.id}}_present" >
+                                <label for="{{registration.student.id}}_present">{{registration.student.get_full_name}}</label>
+                            </div>
+
+                        {%endfor%}
+                    
+                    </div>
+                    <div class="card-footer text-muted">
+                        <button type="submit" class="btn btn-sm btn-primary float-end" >Guardar cambios</button>
+                        <a href="{% url 'list_attendance' course.id  %}" class="btn btn-sm btn-danger">Volver Atras</a>
+                    </div>
+                </div> 
+
+            </div>
+        </div>
+
+
+
+    </form>
+</div>    
+{% endblock %}

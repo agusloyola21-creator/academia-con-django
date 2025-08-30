@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <h2>Administracion de Asistencias</h2>
+    <h4>
+        Listado de Alumnos- <strong>{{course.name}}</strong>
+        {% if course.status == 'I'%}
+            <h5><span class="badge bg-success">EN ETAPA DE INSCRIPCIÓN</span></h5> 
+        {% elif course.status == 'P'%}
+            <h5><span class="badge bg-warning">EN PROGRESO</span></h5> 
+        {% elif course.status == 'F'%}
+            <h5><span class="badge bg-danger">FINALIZADO</span></h5>
+        {% endif %}
+    </h4>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h5>Cantidad de clases: {{course.class_quantity}}</h5>    
+        </div>
+        <div class="col">
+            <h5>Clases restantes: {{remaining_classes}}</h5>    
+        </div>
+    </div>
+    <hr>
+    <div class="table_responsive">
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th>Estudiantes</th>
+                    {% for attendance in attendance_data %}
+                        <th class="text-center">{{attendance.date}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        {% if not student.enabled %}
+                            <td class="text-danger">{{student.student__first_name}} {{student.student__last_name}}
+                                <span class="badge bg-danger text-white" >Danger</span>
+                            </td>
+                        {% else %}
+                            <td>{{ student.student__first_name }} {{student.student__last_name}}</td>
+                        {% endif %}
+                        
+                        {% for item in attendance_data %}
+                            <!-- <h5>{{item}}</h5> -->
+                            {% for attendance in item.attendance_data %}
+                            <!-- <h5>{{attendance}}</h5> -->
+                                {% if student.student__id == attendance.student.student__id %}
+                                    {% if attendance.attendance_status == True %}
+                                        <td class="text-center text-success">
+                                            <strong>P</strong>
+                                        </td>
+                                    {% else %}
+                                        <td class="text-center text-danger">
+                                            <strong>A</strong>
+                                        </td>
+                                    {%endif%}
+                                {%endif%}
+
+                            {% endfor%}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    <a href="{% url 'add_attendance' course.id %}" class="btn btn-primary float-end {% if course.status == 'I' or course.status == 'F' or remaining_classes == 0 %}
+    disabled {%endif%}">Agregar Asistencias</a>
+    <a href="{% url 'profile'  %}" class="btn btn-danger">Volver Atras</a>
+
+
+</div>    
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% if request.user.is_authenticated %}
+        {% if group_name == 'estudiantes' %}
+            <header class="p-3  text-white bg-primary">
+        {% elif group_name == 'profesores' %}
+            <header class="p-3  text-white bg-success">
+        {% elif group_name == 'preceptores' %}
+            <header class="p-3  text-white bg-secondary">
+        {% elif group_name == 'administrativos' %}
+            <header class="p-3  text-white bg-danger">
+        {% endif %}
+{% else %}
+    <header class="p-3  text-white bg-primary">
+{% endif %}
+
+
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="{% url 'home' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                ACADEMIA
+            </a>
+            
+           
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" >
+
+           
+                <li><a href="{% url 'home'%}" class="nav-link px-2 text-white">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Inicio</font>
+                        </font>
+                    </a></li>
+                <li><a href="{% url 'courses'%}" class="nav-link px-2 text-white">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Cursos</font>
+                        </font>
+                    </a></li>
+                {% if not user.is_authenticated or group_name == 'estudiantes' %}
+                <li><a href="{% url 'pricing' %}" class="nav-link px-2 text-white">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Precios</font>
+                        </font>
+                    </a></li>
+                <li><a href="#" class="nav-link px-2 text-white">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Preguntas frecuentes</font>
+                        </font>
+                    </a></li>
+                <li><a href="#" class="nav-link px-2 text-white">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Acerca de</font>
+                        </font>
+                    </a></li>
+                {% endif %}
+            </ul>
+
+            {% if request.user.is_authenticated %}
+               
+                <div class="text-end">
+                    <a href="{% url 'profile' %}" class="nav-link px-2 text-white">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">{{group_name_singular|capfirst}} | {{request.user.username}}</font>
+                        </font>
+                    </a>
+                </div>
+            {% else %}
+                <div class="text-end">
+                    <a class="btn btn-outline-light me-2" href="{% url 'login' %}">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Iniciar Sesión</font>
+                        </font>
+                    </a>
+                    <a class="btn btn-warning" href="{% url 'register' %}">
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Registrarse</font>
+                        </font>
+                    </a>
+                </div>
+            {% endif %}
+
+            
+
+
+        </div>
+    </div>
+</header>

@@ -1,0 +1,143 @@
+<div>
+    <h5>CURSOS ASIGNADOS</h5>
+    <!-- {% if assigned_courses %}
+        <ul class="list-group">
+            {% for course in assigned_courses %}
+                {% with enrollment_count=course.registration_set.count %}
+                    {% if course.status == 'I'%}
+                        <li class="list-group-item list-group-item-success ">
+                    {% elif course.status == 'P'%}
+                        <li class="list-group-item list-group-item-warning">
+                    {% elif course.status == 'F'%}
+                        <li class="list-group-item list-group-item-danger">
+                    {% endif %}
+                    
+                            {{course.name}}
+                            
+                            <a href="{% url 'student_list_mark' course.id %}" class="btn btn-sm btn-ligth border border-dark float-end">
+                            {% if course.status == 'I' or course.status == 'F'%}
+                            Consultar listado
+                            {% elif course.status == 'P'%}
+                            Agregar Notas
+                          
+                            {% endif %}
+
+
+
+                                
+                                <span class="badge rounded-pill bg-success">{{ enrollment_count}}</span>
+                            </a>
+                        </li>
+                {% endwith %}
+            {% endfor %}    
+        </ul>
+    {% else %}
+        <div class="alert alert-primary" role="alert">
+            Ud. no tiene Cursos asignados hasta el momento
+        </div>
+    {% endif %} -->
+   
+</div>
+
+
+<!-- CURSOS EN ETAPA DE INSCRIPCION  -->
+<div class="card text-white bg-success mb-3">
+    <div class="card-header">CURSO EN ETAPA DE INSCRIPCION</div>
+    
+    <div class="card-body">
+        {% if inscription_courses %}
+            <ul class="list-group">
+                {% for course in inscription_courses %}
+                    
+                        {% with enrollment_count=course.registration_set.count %}
+                                <li class="list-group-item list-group-item-success ">
+                        
+                                    
+                                    {{course.name}}
+                                    
+                                    <a href="{% url 'student_list_mark' course.id %}" class="btn btn-sm btn-ligth border border-dark float-end">
+                                        
+                                        Consultar listado
+                                        
+                                        <span class="badge rounded-pill bg-success">{{ enrollment_count}}</span>
+                                    </a>
+                                </li>
+                        {% endwith %}
+                            
+                {% endfor %}    
+            </ul>
+        {% else %}
+            <div class="alert alert-primary" role="alert">
+                Ud. no tiene Cursos asignados hasta el momento
+            </div>
+        {%endif%}    
+    </div>
+</div>
+
+
+<!-- CURSOS EN PROGRESO  -->
+<div class="card text-white bg-warning mb-3">
+    <div class="card-header">CURSO EN PROGRESO</div>
+    
+    <div class="card-body">
+        {% if progress_courses %}
+            <ul class="list-group">
+                {% for course in progress_courses %}
+                    
+                        {% with enrollment_count=course.registration_set.count %}
+                                <li class="list-group-item list-group-item-warning ">
+                        
+                                    
+                                    {{course.name}}
+                                    
+                                    <a href="{% url 'student_list_mark' course.id %}" class="btn btn-sm btn-ligth border border-dark float-end">
+                                       
+                                        Agregar Notas
+                                     
+                                        <span class="badge rounded-pill bg-warning">{{ enrollment_count}}</span>
+                                    </a>
+                                </li>
+                        {% endwith %}
+                    
+                {% endfor %}    
+            </ul>
+        {% else %}
+            <div class="alert alert-primary" role="alert">
+                Ud. no tiene Cursos asignados hasta el momento
+            </div>
+        {%endif%}    
+    </div>
+</div>
+<!-- CURSOS FINALIZADO  -->
+<div class="card text-white bg-danger mb-3">
+    <div class="card-header">CURSO FINALIZADO</div>
+    
+    <div class="card-body">
+        {% if finalized_courses %}
+            <ul class="list-group">
+                {% for course in finalized_courses %}
+                   
+                        {% with enrollment_count=course.registration_set.count %}
+                                <li class="list-group-item list-group-item-danger ">
+                        
+                                    
+                                    {{course.name}}
+                                    
+                                    <a href="{% url 'student_list_mark' course.id %}" class="btn btn-sm btn-ligth border border-dark float-end">
+                                        
+                                        Consultar listado
+                                        
+                                        <span class="badge rounded-pill bg-danger">{{ enrollment_count}}</span>
+                                    </a>
+                                </li>
+                        {% endwith %}
+                   
+                {% endfor %}    
+            </ul>
+        {% else %}
+            <div class="alert alert-primary" role="alert">
+                Ud. no tiene Cursos asignados hasta el momento
+            </div>
+        {%endif%}    
+    </div>
+</div>
